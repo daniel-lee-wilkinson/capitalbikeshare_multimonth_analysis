@@ -111,7 +111,7 @@ Strong seasonal signal: summer peaks and winter troughs are consistent across al
 
 ![Average Trip Duration by Month](figures/avg_duration_by_month.png)
 
-Trip durations spiked dramatically during the 2020–2021 lockdown period — consistent with commuters being replaced by leisure cyclists with longer, unhurried rides. Durations returned to pre-COVID levels by 2022 and have since trended slightly downward.
+Trip durations spiked dramatically during the 2020–2021 lockdown period, consistent with commuters being replaced by leisure cyclists with longer, unhurried rides. Durations returned to pre-COVID levels by 2022 and have since trended slightly downward.
 
 ---
 
@@ -217,5 +217,6 @@ Several of the analytical directions below have been explored as standalone proj
 ## Data Licence
 
 Trip data is published by [Capital Bikeshare](https://s3.amazonaws.com/capitalbikeshare-data/index.html) and licensed under the [Capital Bikeshare Data Lisence Agreement](https://capitalbikeshare.com/data-license-agreement)
+
 
 
