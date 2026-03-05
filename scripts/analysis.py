@@ -24,7 +24,7 @@ FROM trips
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(query, conn)
 
@@ -109,7 +109,7 @@ ORDER BY CASE
     WHEN season = 'Autumn' THEN 4
 END;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df_duration = pd.read_sql_query(duration_query, conn)
 df_duration["avg_duration_min"] = df_duration["avg_duration_sec"] / 60
@@ -161,7 +161,7 @@ WHERE
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(duration_query, conn)
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
@@ -190,7 +190,7 @@ WHERE member_casual IS NOT NULL
 GROUP BY year, month, member_casual
 ORDER BY year, month;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(counts_query, conn)
 df["member_casual"] = df["member_casual"].str.lower().str.strip()
