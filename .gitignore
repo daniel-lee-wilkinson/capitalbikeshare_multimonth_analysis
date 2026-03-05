@@ -1,2 +1,4 @@
-input_data\*.csv
+input_data
+.idea
 *.db
+
