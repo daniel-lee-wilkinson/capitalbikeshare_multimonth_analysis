@@ -24,7 +24,7 @@ FROM trips
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(query, conn)
 
@@ -39,34 +39,36 @@ season_colours = {
 }
 df["colour"] = df["season"].map(season_colours)
 
-import matplotlib.ticker as ticker
-
 # Plot total trips by month with seasonal colour coding
-plt.figure(figsize=(10, 5))
+# Use year-only x-axis labels to avoid crowding across ~85 months
+plt.figure(figsize=(14, 5))
 bars = plt.bar(df["year_month"], df["total_trips"], color=df["colour"])
-plt.xticks(rotation=45)
 plt.title("Total Bikeshare Trips per Month (Coloured by Season)")
-plt.xlabel("Month")
+plt.xlabel("")
+
+ax = plt.gca()
+
+# Show only year labels at the first month of each year
+year_positions = [i for i, ym in enumerate(df["year_month"]) if ym.endswith("-01")]
+year_labels = [ym[:4] for ym in df["year_month"] if ym.endswith("-01")]
+ax.set_xticks(year_positions)
+ax.set_xticklabels(year_labels, rotation=0)
 
 # Scale y-axis to thousands and relabel
-ax = plt.gca()
 ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{int(x/1000)}'))
 plt.ylabel("Trips (Thousands)")
 
-# Add legend
 # Build the legend in the order seasons appear in the plot
-ordered_seasons = df["season"].drop_duplicates().tolist()  # preserves order of appearance
+ordered_seasons = df["season"].drop_duplicates().tolist()
 legend_patches = [
     mpatches.Patch(color=season_colours[season], label=season)
     for season in ordered_seasons if season in season_colours
 ]
-plt.legend(handles=legend_patches, title="Season", loc="upper right")
+plt.legend(handles=legend_patches, title="Season", loc="upper left")
 
 plt.tight_layout()
 plt.savefig("figures/trips_by_month_coloured_by_season.png")
 plt.show()
-
-import matplotlib.pyplot as plt
 
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
 df = df.sort_values("year_month")
@@ -106,16 +108,14 @@ ORDER BY CASE
     WHEN season = 'Autumn' THEN 4
 END;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df_duration = pd.read_sql_query(duration_query, conn)
 df_duration["avg_duration_min"] = df_duration["avg_duration_sec"] / 60
 
-# Define your desired season order
 season_order = ["Spring", "Summer", "Autumn", "Winter"]
 df_duration = df_duration.set_index("season").reindex(season_order).reset_index()
 
-# Plot
 ax = df_duration.plot(
     x="season",
     y="avg_duration_min",
@@ -125,24 +125,22 @@ ax = df_duration.plot(
     figsize=(8, 5)
 )
 
-# Add labels above bars
 for bar in ax.patches:
     height = bar.get_height()
     ax.text(
         bar.get_x() + bar.get_width() / 2,
-        height + 0.2,  # small vertical offset
+        height + 0.2,
         f"{height:.1f}",
         ha='center',
         va='bottom'
     )
 
 y_max = df_duration["avg_duration_min"].max()
-ax.set_ylim(0, y_max + 2)  # adjust as needed (2 mins buffer works well)
+ax.set_ylim(0, y_max + 2)
 
-# Clean up axes
 plt.xticks(rotation=0)
-ax.set_ylabel("")  # Remove y-axis label
-ax.set_yticks([])  # Hide y-axis ticks
+ax.set_ylabel("")
+ax.set_yticks([])
 plt.title("Average Trip Duration by Season (in minutes)")
 plt.tight_layout()
 plt.savefig("figures/avg_duration_by_season.png")
@@ -162,14 +160,12 @@ WHERE
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
-
+print(f"Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(duration_query, conn)
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
 df["avg_duration_min"] = df["avg_duration_sec"] / 60
 
-# Line plot
 plt.figure(figsize=(12, 5))
 plt.plot(df["year_month"], df["avg_duration_min"], marker="o")
 plt.title("Average Bikeshare Trip Duration by Month (2018–2025)")
@@ -181,7 +177,6 @@ plt.savefig("figures/avg_duration_by_month.png")
 plt.show()
 
 
-# Count trips by month and rider type
 start = time.time()
 counts_query = """
 SELECT
@@ -196,17 +191,13 @@ ORDER BY year, month;
 """
 print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
 
-
 df = pd.read_sql_query(counts_query, conn)
 df["member_casual"] = df["member_casual"].str.lower().str.strip()
 
-# Convert to datetime
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
 
-# Pivot so each rider type is a column
 pivot_df = df.pivot(index="year_month", columns="member_casual", values="total_trips")
 
-# Line plot
 pivot_df.plot(figsize=(12, 5), marker="o")
 plt.title("Monthly Trips by Rider Type (2018–2025)")
 plt.ylabel("Total Trips")
@@ -216,5 +207,4 @@ plt.tight_layout()
 plt.savefig("figures/monthly_rides_by_ridertype.png")
 plt.show()
 
-# Close the connection at the very end
 conn.close()
