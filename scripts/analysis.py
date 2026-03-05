@@ -24,7 +24,7 @@ FROM trips
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"Block completed in {round(time.time() - start, 2)} seconds")
+print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(query, conn)
 
@@ -73,12 +73,13 @@ plt.show()
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
 df = df.sort_values("year_month")
 
-plt.figure(figsize=(12, 5))
-plt.plot(df["year_month"], df["total_trips"], marker="o", linewidth=2)
-plt.title("Total Bikeshare Trips per Month (2018–2025)")
-plt.xlabel("Month")
-plt.ylabel("Total Trips")
-plt.grid(True)
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(df["year_month"], df["total_trips"], marker="o", linewidth=2)
+ax.set_title("Total Bikeshare Trips per Month (2018–2025)")
+ax.set_xlabel("Month")
+ax.set_ylabel("Total Trips (Thousands)")
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{int(x/1000)}'))
+ax.grid(axis="y", linestyle="--", alpha=0.7)
 plt.tight_layout()
 plt.savefig("figures/trips_by_month_line.png")
 plt.show()
@@ -108,7 +109,7 @@ ORDER BY CASE
     WHEN season = 'Autumn' THEN 4
 END;
 """
-print(f"Block completed in {round(time.time() - start, 2)} seconds")
+print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
 
 df_duration = pd.read_sql_query(duration_query, conn)
 df_duration["avg_duration_min"] = df_duration["avg_duration_sec"] / 60
@@ -160,18 +161,18 @@ WHERE
 GROUP BY year, month
 ORDER BY year, month;
 """
-print(f"Block completed in {round(time.time() - start, 2)} seconds")
+print(f"⏱️ Block completed in {round(time.time() - start, 2)} seconds")
 
 df = pd.read_sql_query(duration_query, conn)
 df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2))
 df["avg_duration_min"] = df["avg_duration_sec"] / 60
 
-plt.figure(figsize=(12, 5))
-plt.plot(df["year_month"], df["avg_duration_min"], marker="o")
-plt.title("Average Bikeshare Trip Duration by Month (2018–2025)")
-plt.ylabel("Avg Trip Duration (minutes)")
-plt.xlabel("Month")
-plt.grid(True)
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(df["year_month"], df["avg_duration_min"], marker="o")
+ax.set_title("Average Bikeshare Trip Duration by Month (2018–2025)")
+ax.set_ylabel("Avg Trip Duration (minutes)")
+ax.set_xlabel("Month")
+ax.grid(axis="y", linestyle="--", alpha=0.7)
 plt.tight_layout()
 plt.savefig("figures/avg_duration_by_month.png")
 plt.show()
@@ -198,11 +199,13 @@ df["year_month"] = pd.to_datetime(df["year"].astype(str) + "-" + df["month"].ast
 
 pivot_df = df.pivot(index="year_month", columns="member_casual", values="total_trips")
 
-pivot_df.plot(figsize=(12, 5), marker="o")
-plt.title("Monthly Trips by Rider Type (2018–2025)")
-plt.ylabel("Total Trips")
-plt.xlabel("Month")
-plt.grid(True)
+fig, ax = plt.subplots(figsize=(12, 5))
+pivot_df.plot(ax=ax, marker="o")
+ax.set_title("Monthly Trips by Rider Type (2018–2025)")
+ax.set_ylabel("Total Trips (Thousands)")
+ax.set_xlabel("Month")
+ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f'{int(x/1000)}'))
+ax.grid(axis="y", linestyle="--", alpha=0.7)
 plt.tight_layout()
 plt.savefig("figures/monthly_rides_by_ridertype.png")
 plt.show()
