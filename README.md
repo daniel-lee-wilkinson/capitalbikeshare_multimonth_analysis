@@ -1,5 +1,13 @@
 # Capital Bikeshare — Multi-Month Trip Data Analysis
 
+![Language: Python](https://img.shields.io/badge/Language-Python%203.11-blue?logo=python)
+![Database: SQLite](https://img.shields.io/badge/Database-SQLite-grey?logo=sqlite)
+![Library: pandas](https://img.shields.io/badge/Library-pandas-green?logo=pandas)
+![Visualisation: matplotlib](https://img.shields.io/badge/Visualisation-matplotlib-orange?logo=matplotlib)
+![Web Scraping: BeautifulSoup](https://img.shields.io/badge/Scraping-BeautifulSoup-green)
+![Data: 900MB 2018--2025](https://img.shields.io/badge/Data-900MB%202018--2025-lightgrey)
+![Schema Drift: handled](https://img.shields.io/badge/Schema_Drift-handled-blueviolet)
+
 End-to-end data engineering and analysis pipeline for **Washington D.C.'s Capital Bikeshare** system, ingesting ~900 MB of raw trip data (2018–2025) from monthly ZIP archives into a queryable SQLite database, with schema drift handling and visualised analytical insights.
 
 ---
@@ -115,22 +123,7 @@ Annual membership (orange) has grown strongly and consistently. Casual ridership
 
 ---
 
-## Skills & Tools
 
-| Category | Detail |
-|---|---|
-| **Language** | Python 3 |
-| **Data Engineering** | End-to-end ETL pipeline from raw web archive to structured database |
-| **Schema Drift** | Detection and automatic harmonisation of evolving CSV schemas |
-| **Web Scraping** | `requests` + `BeautifulSoup` to parse the S3 archive index |
-| **Data Manipulation** | `pandas` — type coercion, column renaming, deduplication, NA handling |
-| **Database** | SQLite via `sqlite3` — schema design, indexed writes, SQL aggregations |
-| **Incremental Loading** | Year/month deduplication check prevents re-ingesting existing data |
-| **Visualisation** | `matplotlib` — bar charts, line plots, seasonal colour coding, custom formatters |
-| **SQL** | Window functions, `CASE`/`WHEN`, `julianday` duration calculations, `GROUP BY` aggregations |
-| **Software Engineering** | Modular scripts, error handling, progress logging |
-
----
 
 ## Project Structure
 
@@ -208,15 +201,21 @@ Charts are saved to the `figures/` directory.
 - How has the member vs. casual split evolved year-on-year?
 - Does casual ridership show stronger seasonality than membership?
 
-### Potential Extensions
-- Weekday vs. weekend usage patterns
-- Station-level net flow analysis (sources vs. sinks)
-- Geographic clustering and ZIP-code level demand mapping
-- Predictive modelling of next-month station demand
+### Extensions & Related Work
 
----
+Several of the analytical directions below have been explored as standalone projects:
+
+- **Weekday vs. weekend usage patterns** → explored in [CareerFoundry CitiBike Portfolio](https://github.com/daniel-lee-wilkinson/careerfoundry_DA) for a single-month snapshot
+- **Station-level net flow and geographic clustering** → explored in [DC Bikeshare GIS Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_station_analysis), applying spatial clustering and ZIP-level destination mapping to April 2025 data
+- **Predictive modelling of station demand** → explored in [Capital Bikeshare Demand Forecast](https://github.com/daniel-lee-wilkinson/bikeshare_forecasting), applying ARIMA/ARIMAX time series models with weather covariates
+- **Single-month deep pipeline analysis** → [Capital Bikeshare SQL Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_sql), modular ingestion pipeline with pytest suite and automated reporting
+
+**Remaining potential extensions:**
+- Extend weekday/weekend and geographic analyses across the full 2018–2025 period
+- Real-time incremental ingestion as new monthly files are published to the S3 archive
 
 ## Data Licence
 
-Trip data is published by [Capital Bikeshare](https://ride.capitalbikeshare.com/system-data) under the [Capital Bikeshare Data Licence Agreement](https://ride.capitalbikeshare.com/data-license-agreement).
+Trip data is published by [Capital Bikeshare](https://s3.amazonaws.com/capitalbikeshare-data/index.html) and licensed under the [Capital Bikeshare Data Lisence Agreement](https://capitalbikeshare.com/data-license-agreement)
+
 
