@@ -10,7 +10,6 @@
 
 End-to-end data engineering and analysis pipeline for **Washington D.C.'s Capital Bikeshare** system, ingesting ~900 MB of raw trip data (2018–2025) from monthly ZIP archives into a queryable SQLite database, with schema drift handling and visualised analytical insights.
 
-Single-month deep pipeline analysis with BigQuery integration, pytest suite, CI/CD via GitHub Actions, and interactive Plotly heatmap → [Capital Bikeshare SQL Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_sql)
 
 ---
 
@@ -210,7 +209,8 @@ Several of the analytical directions below have been explored as standalone proj
 - **Weekday vs. weekend usage patterns** → explored in [CareerFoundry CitiBike Portfolio](https://github.com/daniel-lee-wilkinson/careerfoundry_DA) for a single-month snapshot
 - **Station-level net flow and geographic clustering** → explored in [DC Bikeshare GIS Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_station_analysis), applying spatial clustering and ZIP-level destination mapping to April 2025 data
 - **Predictive modelling of station demand** → explored in [Capital Bikeshare Demand Forecast](https://github.com/daniel-lee-wilkinson/bikeshare_forecasting), applying ARIMA/ARIMAX time series models with weather covariates
-- **Single-month deep pipeline analysis** → [Capital Bikeshare SQL Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_sql), modular ingestion pipeline with pytest suite and automated reporting
+- Single-month deep pipeline analysis with BigQuery integration, pytest suite, CI/CD via GitHub Actions, and interactive Plotly heatmap → [Capital Bikeshare SQL Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_sql)
+
 
 **Remaining potential extensions:**
 - Extend weekday/weekend and geographic analyses across the full 2018–2025 period
