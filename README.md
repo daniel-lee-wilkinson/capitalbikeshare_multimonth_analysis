@@ -10,6 +10,8 @@
 
 End-to-end data engineering and analysis pipeline for **Washington D.C.'s Capital Bikeshare** system, ingesting ~900 MB of raw trip data (2018–2025) from monthly ZIP archives into a queryable SQLite database, with schema drift handling and visualised analytical insights.
 
+Single-month deep pipeline analysis with BigQuery integration, pytest suite, CI/CD via GitHub Actions, and interactive Plotly heatmap → [Capital Bikeshare SQL Analysis](https://github.com/daniel-lee-wilkinson/capitalbikeshare_sql)
+
 ---
 
 ## Project Overview
