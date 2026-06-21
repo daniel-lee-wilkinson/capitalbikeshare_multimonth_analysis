@@ -23,7 +23,7 @@ This project tackles the full data lifecycle: automated discovery and download o
 
 | Detail | Value |
 |---|---|
-| Source | [Capital Bikeshare System Data](https://ride.capitalbikeshare.com/system-data) (AWS S3 archive) |
+| Source | [Capital Bikeshare System Data](https://s3.amazonaws.com/capitalbikeshare-data/index.html) (AWS S3 archive) |
 | Coverage | January 2018 – 2025 |
 | Raw data size | **~900 MB** across monthly ZIP files |
 | Records | Millions of individual trip records |
